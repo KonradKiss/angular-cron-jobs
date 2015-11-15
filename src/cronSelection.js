@@ -24,33 +24,30 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
 
             $scope.frequency = [
                 {
-                  value : 1,
-                  label : 'Minute'  
+                    value : 1,
+                    label : 'percben'
                 },
                 {
                   value : 2,
-                  label : 'Hour'  
+                  label : 'óra'
                 },
                 {
                   value : 3,
-                  label : 'Day'  
+                  label : 'nap'
                 },
                 {
                   value : 4,
-                  label : 'Week'  
+                  label : 'héten'
                 },
                 {
                   value : 5,
-                  label : 'Month'  
+                  label : 'hónap'
                 },
                 {
                   value : 6,
-                  label : 'Year'  
+                  label : 'év'
                 }
             ];
-            
-
-
 
             if (angular.isDefined($scope.init)) {
                 //console.log('init value found: ', $scope.init);
@@ -119,11 +116,13 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 $scope.output = cronService.setCron(n);
             }, true);
 
-        
+
         }
     };
 }]).filter('numeral', function() {
     return function(input) {
+        return input + '.';
+        /*
         switch (input) {
             case 1:
                 return '1st';
@@ -143,23 +142,23 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
                 return null;
             default:
                 return input + 'th';
-        }
+        }*/
     };
 }).filter('monthName', function() {
     return function(input) {
         var months = {
-            1: 'January',
-            2: 'February',
-            3: 'March',
-            4: 'April',
-            5: 'May',
-            6: 'June',
-            7: 'July',
-            8: 'August',
-            9: 'September',
-            10: 'October',
-            11: 'November',
-            12: 'December'
+            1: 'január',
+            2: 'február',
+            3: 'március',
+            4: 'április',
+            5: 'május',
+            6: 'június',
+            7: 'július',
+            8: 'augusztus',
+            9: 'szeptember',
+            10: 'október',
+            11: 'november',
+            12: 'december'
         };
 
         if (input !== null && angular.isDefined(months[input])) {
@@ -171,13 +170,13 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
 }).filter('dayName', function() {
     return function(input) {
         var days = {
-            0: 'Sunday',
-            1: 'Monday',
-            2: 'Tuesday',
-            3: 'Wednesday',
-            4: 'Thursday',
-            5: 'Friday',
-            6: 'Saturday',
+            0: 'vasárnap',
+            1: 'hétfőn',
+            2: 'kedden',
+            3: 'szerdán',
+            4: 'csütörtökön',
+            5: 'pénteken',
+            6: 'szombaton',
         };
 
         if (input !== null && angular.isDefined(days[input])) {

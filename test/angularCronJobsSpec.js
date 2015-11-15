@@ -100,6 +100,6 @@ describe('AngularCronJobs', function() {
         var scope = $rootScope.$new();
         var view = createView(scope);
         var isolateScope = view.isolateScope();
-        expect(isolateScope.frequency[0].label).toEqual('Hour');
+        expect(isolateScope.frequency[0].label).toEqual('percben');
     });
 });
