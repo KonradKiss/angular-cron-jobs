@@ -1,6 +1,6 @@
 /**
  * UI Component For Creating Cron Job Syntax To Send To Server
- * @version v1.4.1 - 2015-11-16 * @link https://github.com/jacobscarter/angular-cron-jobs
+ * @version v1.4.1 - 2015-11-18 * @link https://github.com/jacobscarter/angular-cron-jobs
  * @author Jacob Carter <jacob@ieksolutions.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
@@ -224,7 +224,7 @@ angular.module('angular-cron-jobs').directive('cronSelection', ['cronService', f
 });
 'use strict';
 
-angular.module('angular-cron-jobs').factory('cronService', function() {
+angular.module('angular-cron-jobs').factory('cronService', function($filter) {
     var service = {};
 
     service.setCron = function(n) {
@@ -254,7 +254,7 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
         return cron.join(' ');
     };
 
-    service.fromCron = function(value) { 
+    service.fromCron = function(value) {
         //  console.log('set cron fired!');
        var cron = value.replace(/\s+/g, ' ').split(' ');
        var frequency = {base: '1'}; // default: every minute
@@ -296,6 +296,33 @@ angular.module('angular-cron-jobs').factory('cronService', function() {
        // console.log('freq ', frequency);
        return frequency;
    };
-   
+
+   service.humanize = function(value) {
+       if (typeof value !== 'undefined') {
+            var frequency = service.fromCron(value);
+
+            if (frequency.base === 1) {
+                return 'Minden percben';
+            }
+            if (frequency.base === 2) {
+                return 'Minden óra ' + frequency.minuteValue + ' perckor';
+            }
+            if (frequency.base === 3) {
+                return 'Minden nap ' + frequency.hourValue + ':' + frequency.minuteValue + '-kor';
+            }
+            if (frequency.base === 4) {
+                return 'Minden héten ' + $filter('dayName')(frequency.dayValue) + ' ' + frequency.hourValue + ':' + frequency.minuteValue + '-kor';
+            }
+            if (frequency.base === 5) {
+                return 'Minden hónap ' + frequency.dayOfMonthValue + '. napján ' + frequency.hourValue + ':' + frequency.minuteValue + '-kor';
+            }
+            if (frequency.base === 6) {
+                return 'Minden év ' + $filter('monthName')(frequency.monthValue) + ' ' + frequency.dayOfMonthValue + '. napján ' + frequency.hourValue + ':' + frequency.minuteValue + '-kor';
+            }
+       } else {
+            return '';
+       }
+   };
+
    return service;
 });
